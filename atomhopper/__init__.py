@@ -9,10 +9,12 @@ __license__      = 'ASLv2'
 from jinja2 import Environment, PackageLoader
 import json
 import requests
-import pyrax
+import keyring
+
+import atomhopper.auth as auth
 
 TEMPLATE = u'generic.j2'
-ENDPOINT = u'https://atom.staging.dfw1.us.ci.rackspace.net/demo/events'
+ENDPOINT = u'https://atom.staging.ord1.us.ci.rackspace.net/demo/events'
 
 class AtomFeed(object):
     headers = { 'content-type': 'application/atom+xml' }
@@ -24,12 +26,11 @@ class AtomFeed(object):
         
         then any of these these parameters for the secret:
         token: existing active auth token
-        api_key: self explanatory
-        keyring: value is irrelevant, uses the pyrax system keyring
+        keyring: value is which system keyring to access
         password: your plaintext password (try to avoid this)
         """
         self.endpoint = endpoint
-        for secret_type in ('token','api_key','keyring','password'):
+        for secret_type in ('token','keyring','password'):
             if secret_type in kwargs.keys():
                 secret = kwargs[secret_type]
                 break
@@ -40,17 +41,17 @@ class AtomFeed(object):
         return
 
     def authenticate(self, name, secret=None, secret_type='keyring'):
-        pyrax.set_setting("identity_type", "rackspace")
         token = None
+        password = None
         if secret_type == 'token':
-            pyrax.auth_with_token(secret, tenant_name=name)
-        elif secret_type == 'api_key':
-            pyrax.set_credentials(name, secret)
+            token = secret
         elif secret_type == 'keyring':
-            pyrax.keyring_auth(name)
+            password = keyring.get_password(secret, name)
         elif secret_type == 'password':
-            pyrax.set_credentials(name, secret)
-        token = pyrax.identity.token
+            password = secret
+        else:
+            raise Exception, 'invalid secret_type'
+        token = auth.get_token(token, name, password, auth.STAGING_ENDPOINT)
         self.headers['x-auth-token'] = token
 
     def post(self, data):
