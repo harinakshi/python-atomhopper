@@ -11,7 +11,7 @@ all: rpms
 
 clean:
 	rm -rf dist/ build/ rpm-build/ rpms/
-	rm -rf docs/*.gz MANIFEST *~
+	rm -rf docs/*.gz MANIFEST *~ *.egg-info
 	find . -name '*.pyc' -exec rm -f {} \;
 
 #manpage:
