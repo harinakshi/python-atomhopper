@@ -16,7 +16,6 @@ BuildRequires:  python-setuptools
 Requires:       python-requests
 Requires:       python-simplejson
 Requires:       python-jinja2
-Requires:       pyrax
 
 
 %description
