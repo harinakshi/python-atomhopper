@@ -7,6 +7,10 @@
         <email>{{ email }}</email>
     </author>
 
+{% for category in categories %}
+    <category term="{{ category }}" />
+{% endfor %}
+
     <content type="application/json">
 {{ content }}
     </content>
