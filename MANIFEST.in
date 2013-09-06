@@ -1,6 +1,4 @@
-recursive-include scatterbrain *
-recursive-include scripts *
+recursive-include atomhopper *
 include INSTALL
-include LICENSE
+include LICENSE.md
 include README
-include CHANGELOG

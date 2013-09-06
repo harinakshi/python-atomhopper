@@ -1,7 +1,8 @@
 build/
-sdist/
+dist/
 rpms/
 rpm-build/
-.spyderproject
+MANIFEST
 *.pyc
 *.pyo
+.spyderproject

@@ -24,7 +24,6 @@ if __name__ == "__main__":
         author_email = __author_email__,
         url = "https://github.com/rackerlabs/python-%s" % NAME,
         license = __license__,
-        scripts = ["scripts/%s" % NAME],
         package_dir = {NAME: NAME},
         packages = [NAME],
         data_files = data_files,
