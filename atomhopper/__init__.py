@@ -19,37 +19,23 @@ ENDPOINT = u'https://atom.staging.ord1.us.ci.rackspace.net/demo/events'
 class AtomFeed(object):
     headers = { 'content-type': 'application/atom+xml' }
 
-    def __init__(self, endpoint, name, **kwargs):
+    def __init__(self, endpoint, username, **kwargs):
         """
         To authenticate to the feed:
         name: user or tenant identifier
         
-        then any of these these parameters for the secret:
+        then either of these these parameters for the secret:
         token: existing active auth token
-        keyring: value is which system keyring to access
         password: your plaintext password (try to avoid this)
         """
         self.endpoint = endpoint
-        for secret_type in ('token','password'):
-            if secret_type in kwargs.keys():
-                secret = kwargs[secret_type]
-                break
-        try:
-            self.authenticate(name, secret, secret_type)
-        except NameError:
-            raise Exception, 'No valid secret was provided'
-        return
+        token = kwargs.get('token', None)
+        password = kwargs.get('password', None)
+        auth_endpoint = kwargs.get('auth_endpoint', auth.STAGING_ENDPOINT)
+        self.authenticate(token, username, password, auth_endpoint)
 
-    def authenticate(self, name, secret=None, secret_type='token'):
-        token = None
-        password = None
-        if secret_type == 'token':
-            token = secret
-        elif secret_type == 'password':
-            password = secret
-        else:
-            raise Exception, 'invalid secret_type'
-        token = auth.get_token(token, name, password, auth.STAGING_ENDPOINT)
+    def authenticate(self, token, username, password, auth_endpoint):
+        token = auth.get_token(token, username, password, auth_endpoint)
         self.headers['x-auth-token'] = token
 
     def post(self, data):

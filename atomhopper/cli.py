@@ -29,13 +29,13 @@ if not os.access(LOG_FILE, os.W_OK):
 
 
 DEFAULTS = {
-    'url': { 'type': 'string', 'default': ah.ENDPOINT },
+    'endpoint': { 'type': 'string', 'default': ah.ENDPOINT },
     'timeout': { 'type': 'integer', 'min':60, 'max': 1800, 'default': 300 },
-    'user': { 'type': 'string' },
+    'username': { 'type': 'string' },
     'token': { 'type': 'string' },
     'password': { 'type': 'string' },
     'keyring': { 'type': 'string' },
-    'authurl': { 'type': 'string', 'default': auth.ENDPOINT },
+    'auth_endpoint': { 'type': 'string', 'default': auth.ENDPOINT },
     'log_file': { 'type': 'string', 'default': LOG_FILE },
 }
 
@@ -91,13 +91,13 @@ def parse_opts_args():
             help='Silence the output of the script, still logs to file'),
     general.add_option('-t', '--timeout', type='int',
             help='How long to wait for individual steps of process before erroring out a node'),
-    atom.add_option('--url',
+    atom.add_option('-e', '--endpoint',
             help='URL for the Atom Hopper feed')
     atom.add_option('--category',
             help='Category for classifying your post')
     atom.add_option('--post', dest='action', action='store_const', const=POST,
             help='Post an entry to the feed')
-    auth.add_option('--user',
+    auth.add_option('-u', '--username',
             help='Username to pass for authentication'),
     auth.add_option('-p', '--password', action="store_true", default=False,
             help='Prompt for password for authentication'),
@@ -105,7 +105,7 @@ def parse_opts_args():
             help='Which system keyring to pull password from'),
     auth.add_option('--token',
             help='Token for authentication.'),
-    auth.add_option('--endpoint', dest='authurl',
+    auth.add_option('--auth-endpoint',
             help='Define a specific auth endpoint url'),
     parser.add_option_group(general)
     parser.add_option_group(atom)
@@ -164,5 +164,7 @@ def get_config_and_output():
     
 def run():
     (output, config) = get_config_and_output()
-    
+    feed = AtomFeed(**config)
+    entry = AtomEntry('testing', __author__, __author_email__, content)
+    print entry.renger()
     
