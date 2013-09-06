@@ -30,7 +30,7 @@ class AtomFeed(object):
         password: your plaintext password (try to avoid this)
         """
         self.endpoint = endpoint
-        for secret_type in ('token','keyring','password'):
+        for secret_type in ('token','password'):
             if secret_type in kwargs.keys():
                 secret = kwargs[secret_type]
                 break
@@ -40,13 +40,11 @@ class AtomFeed(object):
             raise Exception, 'No valid secret was provided'
         return
 
-    def authenticate(self, name, secret=None, secret_type='keyring'):
+    def authenticate(self, name, secret=None, secret_type='token'):
         token = None
         password = None
         if secret_type == 'token':
             token = secret
-        elif secret_type == 'keyring':
-            password = keyring.get_password(secret, name)
         elif secret_type == 'password':
             password = secret
         else:
@@ -93,6 +91,7 @@ if __name__ == '__main__':
         'content': 'Aug 28 18:55:42 virt-n01 sudo: pam_unix(sudo:session): session closed for user root'
     }
 
-    feed = AtomFeed(ENDPOINT, 'greg5320', keyring=True)
+    feed = AtomFeed(ENDPOINT, 'ciengineer', password=keyring.get_password('pyrax','ciengineer'))
     entry = AtomEntry('testing', __author__, __author_email__, content)
-    feed.post(entry.render())
+    print entry.renger()
+    #feed.post(entry.render())

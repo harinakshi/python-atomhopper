@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
-from distutils.core import setup
+from setuptools import setup
 
-# are these needed?
 import sys
 sys.path.insert(0, '.')
 
@@ -28,4 +27,7 @@ if __name__ == "__main__":
         packages = [NAME],
         data_files = data_files,
         description = SHORT_DESC,
+        entry_points={
+            'console_scripts': [ 'ahc = atomhopper.cli:run' ],
+        }
     )
