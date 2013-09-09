@@ -111,7 +111,7 @@ def parse_opts_args():
     parser.add_option_group(atom)
     parser.add_option_group(auth)
     # we'll handle remaining defaults when parsing CONFIG
-    parser.set_defaults(config=CONFIG_FILE, verbosity=NORMAL)
+    parser.set_defaults(config=CONFIG_FILE, verbosity=NORMAL, action=GET)
     return parser.parse_args()
 
 def get_config(defaults, options, output):
@@ -119,6 +119,7 @@ def get_config(defaults, options, output):
     config = parse_config(options.config, defaults)
     config['log_file'] = defaults['log_file']
     config['verbosity'] = options.verbosity
+    config['action'] = options.action
     output.verbosity = config['verbosity']
     if output.outfile == LOG_FILE and 'log_file' in config:
         output.setOutFile(config['log_file'])
@@ -141,6 +142,8 @@ def get_config(defaults, options, output):
 
 def get_config_and_output():
     (options, args) = parse_opts_args()
+    if len(args) < 1:
+        raise Exception, 'Must provide content to for post/get'
     debug = False
     if options.verbosity == DEBUG:
         debug = True
@@ -155,16 +158,20 @@ def get_config_and_output():
 
     config = get_config(DEFAULTS, options, output)
     if options.keyring:
-        config['password'] = keyring.get_password(options.keyring, options.user)
+        config['password'] = keyring.get_password(config['keyring'], config['username'])
     elif options.password:
         config['password'] = getpass('Password: ')
-    
+    config['content'] = args[0]
     output.debug(config, 'config', inspect=True)
     return (config, output)
     
 def run():
-    (output, config) = get_config_and_output()
-    feed = AtomFeed(**config)
-    entry = AtomEntry('testing', __author__, __author_email__, content)
-    print entry.renger()
-    
+    (config, output) = get_config_and_output()
+    feed = ah.AtomFeed(**config)
+    entry = ah.AtomEntry('testing', ah.__author__, ah.__author_email__, config['content'])
+    data = entry.render()
+    output.debug(data, 'data')
+    if config['action'] == POST:
+        result = feed.post(data)
+    elif config['action'] == GET:
+        result = feed.get()
