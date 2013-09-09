@@ -13,9 +13,6 @@ SHORT_DESC = "Python bindings or interacting with AtomHopper"
 
 if __name__ == "__main__":
  
-#    manpath    = "share/man/man1/"
-#    data_files = [(manpath,  ["docs/%s.1.gz" % NAME])],
-    data_files = None
     setup(
         name = NAME,
         version = __version__,
@@ -23,9 +20,10 @@ if __name__ == "__main__":
         author_email = __author_email__,
         url = "https://github.com/rackerlabs/python-%s" % NAME,
         license = __license__,
-        package_dir = {NAME: NAME},
         packages = [NAME],
-        data_files = data_files,
+        package_dir = {NAME: NAME},
+        package_data = {NAME: ['templates/*.j2']},
+        install_package_data = True,
         description = SHORT_DESC,
         entry_points={
             'console_scripts': [ 'ahc = atomhopper.cli:run' ],

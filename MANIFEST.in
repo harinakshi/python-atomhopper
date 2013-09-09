@@ -1,4 +1,4 @@
-recursive-include atomhopper *
-include INSTALL
+recursive-include atomhopper * *.j2
 include LICENSE.md
-include README
+include README.md
+include CHANGELOG

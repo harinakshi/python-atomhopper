@@ -32,8 +32,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__python} setup.py install --root $RPM_BUILD_ROOT
 
 %files
-%doc README LICENSE.md
+%doc README.md LICENSE.md CHANGELOG
 %{python_sitelib}/*
+%attr(0755,-,-) %{_bindir}/ahc
 
 %changelog
 * Fri Sep 6 2013 Greg Swift <gregswift@gmail.com> - 0.1.0-1
