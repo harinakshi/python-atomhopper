@@ -48,15 +48,20 @@ class AtomFeed(object):
         return
 
 
-class AtomEntry(object):
+class AtomEntry(dict):
 
     def __init__(self, title, author, email, content, template=TEMPLATE):
-        self.title = title
-        self.author = author
-        self.email = email
-        self.content = json.dumps(template)
+        self._set_attribute('title', title)
+        self._set_attribute('author', author)
+        self._set_attribute('email', email)
+        self._content = content
+        self._set_attribute('content', json.dumps(content))
         self._template = template
-        self.template = self._load_template(template)
+        self._set_attribute('template', self._load_template(template))
+
+    def _set_attribute(self, name, value):
+        setattr(self, name, value)
+        self[name] = value
 
     def _load_template(self, template):
         env = Environment(loader=PackageLoader(__name__, 'templates'))
