@@ -1,8 +1,9 @@
-build/
-dist/
-rpms/
-rpm-build/
-MANIFEST
+*.egg-info
 *.pyc
-*.pyo
-.spyderproject
+*.swp
+
+.coverage
+.idea
+.ropeproject
+.tox
+.venv
