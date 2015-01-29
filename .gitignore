@@ -1,5 +1,9 @@
+build/
+artifacts/
+
 *.egg-info
 *.pyc
+*.pyo
 *.swp
 
 .coverage
