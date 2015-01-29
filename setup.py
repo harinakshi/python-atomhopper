@@ -8,7 +8,7 @@ except ImportError:
 
 setuptools.setup(
     name='atomhopper',
-    version='0.1.0',
+    version='1.0.0',
     description='Python bindings or interacting with AtomHopper',
     author='',
     author_email='',

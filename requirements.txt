@@ -2,3 +2,4 @@ Jinja2
 lxml
 requests
 simplejson
+pecan
