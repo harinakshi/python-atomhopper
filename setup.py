@@ -1,31 +1,27 @@
-#!/usr/bin/python
+# -*- coding: utf-8 -*-
+try:
+    import setuptools
+except ImportError:
+    from ez_setup import use_setuptools
+    use_setuptools()
+    import setuptools
 
-from setuptools import setup
-
-import sys
-sys.path.insert(0, '.')
-
-from atomhopper import __version__, __author__, __author_email__, __license__
-
-NAME = "atomhopper"
-SHORT_DESC = "Python bindings or interacting with AtomHopper"
-
-
-if __name__ == "__main__":
- 
-    setup(
-        name = NAME,
-        version = __version__,
-        author = __author__,
-        author_email = __author_email__,
-        url = "https://github.com/rackerlabs/python-%s" % NAME,
-        license = __license__,
-        packages = [NAME],
-        package_dir = {NAME: NAME},
-        package_data = {NAME: ['templates/*.j2']},
-        install_package_data = True,
-        description = SHORT_DESC,
-        entry_points={
-            'console_scripts': [ 'ahc = atomhopper.cli:run' ],
-        }
-    )
+setuptools.setup(
+    name='atomhopper',
+    version='1.0.0',
+    description='Python bindings or interacting with AtomHopper',
+    author='',
+    author_email='',
+    url='https://github.com/rackerlabs/python-atomhopper',
+    license='ASLv2',
+    install_requires=[],
+    test_suite='atomhopper',
+    zip_safe=False,
+    include_package_data=True,
+    packages=setuptools.find_packages(exclude=['ez_setup']),
+    entry_points={
+        'console_scripts': [
+            'ahc = atomhopper.cli:run'
+        ],
+    },
+)

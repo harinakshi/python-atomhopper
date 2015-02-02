@@ -1,0 +1,6 @@
+coverage
+hacking
+mock
+nose
+testtools
+

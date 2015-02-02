@@ -3,7 +3,7 @@
 %define module_name atomhopper
 
 Name:           python-%{module_name}
-Version:        0.1.0
+Version:        1.0.0
 Release:        1%{?dist}
 Summary:        Python language bindings for Atom Hopper
 
@@ -16,7 +16,8 @@ BuildRequires:  python-setuptools
 Requires:       python-requests
 Requires:       python-simplejson
 Requires:       python-jinja2
-
+Requires:       python-lxml
+Requires:       python-pecan
 
 %description
 
@@ -37,5 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755,-,-) %{_bindir}/ahc
 
 %changelog
+* Thu Jan 29 2015 Greg Swift <gregswift@gmail.com> - 1.0.0-1
+- Updated release
+
 * Fri Sep 6 2013 Greg Swift <gregswift@gmail.com> - 0.1.0-1
 - Initial spec
